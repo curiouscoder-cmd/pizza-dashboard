@@ -165,7 +165,7 @@ export default function Dashboard() {
             </div>
             <div className="hidden lg:block">
               <div className="text-right">
-                <p className="text-[#FFF5E1]/80 text-sm">Today's Date</p>
+                <p className="text-[#FFF5E1]/80 text-sm">Today&apos;s Date</p>
                 <p className="text-[#FFF5E1] font-semibold">
                   {new Date().toLocaleDateString('en-US', {
                     weekday: 'long',

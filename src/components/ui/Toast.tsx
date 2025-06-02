@@ -38,14 +38,14 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   const addToast = useCallback((toast: Omit<Toast, 'id'>) => {
     const id = Math.random().toString(36).substr(2, 9)
     const newToast = { ...toast, id }
-    
+
     setToasts(prev => [...prev, newToast])
 
     // Auto remove after duration
     const duration = toast.duration ?? 5000
     if (duration > 0) {
       setTimeout(() => {
-        removeToast(id)
+        setToasts(prev => prev.filter(t => t.id !== id))
       }, duration)
     }
   }, [])
@@ -136,22 +136,5 @@ const ToastItem = ({ toast }: { toast: Toast }) => {
   )
 }
 
-// Convenience functions
-export const toast = {
-  success: (message: string, options?: Partial<Toast>) => {
-    const { addToast } = useToast()
-    addToast({ type: 'success', description: message, ...options })
-  },
-  error: (message: string, options?: Partial<Toast>) => {
-    const { addToast } = useToast()
-    addToast({ type: 'error', description: message, ...options })
-  },
-  warning: (message: string, options?: Partial<Toast>) => {
-    const { addToast } = useToast()
-    addToast({ type: 'warning', description: message, ...options })
-  },
-  info: (message: string, options?: Partial<Toast>) => {
-    const { addToast } = useToast()
-    addToast({ type: 'info', description: message, ...options })
-  }
-}
+// Note: Use the useToast hook directly in components to add toasts
+// Example: const { addToast } = useToast(); addToast({ type: 'success', description: 'Success!' })

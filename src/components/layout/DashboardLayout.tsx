@@ -6,7 +6,7 @@ import { ReactNode, useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Home, ShoppingCart, LogOut, Menu, X, Settings, Bell, Search, ChevronDown, User, Calendar } from 'lucide-react'
-import { Skeleton } from '@/components/ui/Skeleton'
+
 
 interface DashboardLayoutProps {
   children: ReactNode

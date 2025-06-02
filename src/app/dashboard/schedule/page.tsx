@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
-import { Calendar, Clock, Plus, Truck, User, MapPin, Phone, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Calendar, Clock, Plus, User, MapPin, Phone, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface DeliverySchedule {
   id: string
@@ -252,7 +252,7 @@ export default function SchedulePage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Calendar className="h-5 w-5 text-[#E63946]" />
-            Today's Schedule
+            Today&apos;s Schedule
           </CardTitle>
         </CardHeader>
         <CardContent>

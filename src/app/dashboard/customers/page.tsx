@@ -1,12 +1,12 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Card, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Badge } from '@/components/ui/Badge'
-import { Search, Filter, Plus, Phone, Mail, MapPin, Calendar, ShoppingCart, Star, MoreVertical, Edit, Trash2, Eye } from 'lucide-react'
-import { Modal, ModalHeader, ModalBody, ModalFooter } from '@/components/ui/Modal'
+import { Search, Plus, Phone, Mail, MapPin, Calendar, ShoppingCart, Star, MoreVertical, Edit } from 'lucide-react'
+import { Modal, ModalBody, ModalFooter } from '@/components/ui/Modal'
 
 interface Customer {
   id: string

@@ -5,16 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Badge } from '@/components/ui/Badge'
-import { 
-  Search, 
-  Filter, 
-  Download, 
-  ShoppingCart, 
-  User, 
-  Truck, 
-  Settings, 
-  AlertCircle, 
-  CheckCircle, 
+import {
+  Search,
+  Download,
+  ShoppingCart,
+  User,
+  Truck,
+  Settings,
+  AlertCircle,
+  CheckCircle,
   Clock,
   Calendar,
   RefreshCw
@@ -30,7 +29,7 @@ interface Activity {
   orderId?: string
   customerId?: string
   status: 'success' | 'warning' | 'error' | 'info'
-  metadata?: Record<string, any>
+  metadata?: Record<string, string | number | boolean>
 }
 
 const mockActivities: Activity[] = [
@@ -346,7 +345,7 @@ export default function ActivityPage() {
                     key={type}
                     variant={typeFilter === type ? 'primary' : 'secondary'}
                     size="xs"
-                    onClick={() => setTypeFilter(type as any)}
+                    onClick={() => setTypeFilter(type as typeof typeFilter)}
                   >
                     {type.charAt(0).toUpperCase() + type.slice(1)}
                   </Button>
@@ -360,7 +359,7 @@ export default function ActivityPage() {
                     key={status}
                     variant={statusFilter === status ? 'primary' : 'secondary'}
                     size="xs"
-                    onClick={() => setStatusFilter(status as any)}
+                    onClick={() => setStatusFilter(status as typeof statusFilter)}
                   >
                     {status.charAt(0).toUpperCase() + status.slice(1)}
                   </Button>
@@ -374,7 +373,7 @@ export default function ActivityPage() {
                     key={period}
                     variant={dateFilter === period ? 'primary' : 'secondary'}
                     size="xs"
-                    onClick={() => setDateFilter(period as any)}
+                    onClick={() => setDateFilter(period as typeof dateFilter)}
                   >
                     {period.charAt(0).toUpperCase() + period.slice(1)}
                   </Button>
