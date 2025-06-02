@@ -4,7 +4,9 @@ import { useState, useMemo } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
+import { ScheduleDeliveryModal } from '@/components/ScheduleDeliveryModal'
 import { Calendar, Clock, Plus, User, MapPin, Phone, ChevronLeft, ChevronRight } from 'lucide-react'
+import { type ScheduleDeliveryFormData } from '@/lib/validations'
 
 interface DeliverySchedule {
   id: string
@@ -21,80 +23,157 @@ interface DeliverySchedule {
   notes?: string
 }
 
+// Generate dynamic timestamps for realistic delivery schedule
+const now = new Date()
+
 const mockSchedule: DeliverySchedule[] = [
+  // Today's deliveries - current and upcoming
   {
     id: 'DEL001',
-    orderId: 'PZA020',
-    customerName: 'John Smith',
+    orderId: 'PZA025',
+    customerName: 'Michael Chen',
     customerPhone: '+1 (555) 123-4567',
-    address: '123 Main St, New York, NY 10001',
-    scheduledTime: '2024-01-16T12:30:00',
+    address: '123 Broadway, New York, NY 10001',
+    scheduledTime: new Date(now.getTime() + 15 * 60 * 1000).toISOString(), // 15 minutes from now
     estimatedDuration: 25,
     status: 'scheduled',
-    driverName: 'Mike Johnson',
+    driverName: 'Sarah Martinez',
     priority: 'high',
-    items: ['Large Margherita Pizza', 'Caesar Salad'],
+    items: ['Large Pepperoni Pizza', 'Garlic Bread', 'Coke'],
     notes: 'Customer prefers contactless delivery'
   },
   {
     id: 'DEL002',
-    orderId: 'PZA019',
-    customerName: 'Sarah Wilson',
+    orderId: 'PZA024',
+    customerName: 'Jessica Rodriguez',
     customerPhone: '+1 (555) 234-5678',
     address: '456 Oak Ave, Brooklyn, NY 11201',
-    scheduledTime: '2024-01-16T13:00:00',
+    scheduledTime: new Date(now.getTime() + 5 * 60 * 1000).toISOString(), // 5 minutes from now
     estimatedDuration: 30,
     status: 'in-progress',
-    driverName: 'Alex Rodriguez',
-    priority: 'medium',
-    items: ['Medium Pepperoni Pizza', 'Garlic Bread']
+    driverName: 'Mike Johnson',
+    priority: 'high',
+    items: ['Medium Margherita Pizza', 'Caesar Salad'],
+    notes: 'Ring doorbell twice'
   },
   {
     id: 'DEL003',
-    orderId: 'PZA018',
-    customerName: 'David Brown',
+    orderId: 'PZA023',
+    customerName: 'David Kim',
     customerPhone: '+1 (555) 345-6789',
     address: '789 Pine St, Queens, NY 11375',
-    scheduledTime: '2024-01-16T13:15:00',
+    scheduledTime: new Date(now.getTime() + 45 * 60 * 1000).toISOString(), // 45 minutes from now
     estimatedDuration: 35,
     status: 'scheduled',
-    driverName: 'Lisa Chen',
+    driverName: 'Alex Rodriguez',
     priority: 'medium',
-    items: ['Large Hawaiian Pizza', 'Buffalo Wings']
+    items: ['Large Hawaiian Pizza', 'Buffalo Wings', 'Sprite'],
+    notes: 'Apartment 4B, use side entrance'
   },
   {
     id: 'DEL004',
-    orderId: 'PZA017',
-    customerName: 'Emily Davis',
+    orderId: 'PZA022',
+    customerName: 'Amanda Wilson',
     customerPhone: '+1 (555) 456-7890',
     address: '321 Elm St, Manhattan, NY 10002',
-    scheduledTime: '2024-01-16T11:45:00',
+    scheduledTime: new Date(now.getTime() - 30 * 60 * 1000).toISOString(), // 30 minutes ago
     estimatedDuration: 20,
     status: 'completed',
-    driverName: 'Mike Johnson',
+    driverName: 'Lisa Chen',
     priority: 'low',
-    items: ['Small Veggie Pizza']
+    items: ['Small Veggie Pizza', 'Diet Coke']
   },
   {
     id: 'DEL005',
-    orderId: 'PZA016',
+    orderId: 'PZA021',
     customerName: 'Robert Taylor',
     customerPhone: '+1 (555) 567-8901',
     address: '654 Maple Dr, Bronx, NY 10451',
-    scheduledTime: '2024-01-16T14:00:00',
+    scheduledTime: new Date(now.getTime() + 30 * 60 * 1000).toISOString(), // 30 minutes from now
     estimatedDuration: 40,
-    status: 'delayed',
+    status: 'scheduled',
+    driverName: 'Sarah Martinez',
+    priority: 'medium',
+    items: ['Large Meat Lovers Pizza', 'Chicken Wings', 'Pepsi'],
+    notes: 'Call when arriving - gated community'
+  },
+  {
+    id: 'DEL006',
+    orderId: 'PZA020',
+    customerName: 'Emily Davis',
+    customerPhone: '+1 (555) 678-9012',
+    address: '987 Cedar Ave, Staten Island, NY 10301',
+    scheduledTime: new Date(now.getTime() + 60 * 60 * 1000).toISOString(), // 1 hour from now
+    estimatedDuration: 45,
+    status: 'scheduled',
+    driverName: 'Mike Johnson',
+    priority: 'low',
+    items: ['Medium BBQ Chicken Pizza', 'Mozzarella Sticks'],
+    notes: 'Leave at door if no answer'
+  },
+  {
+    id: 'DEL007',
+    orderId: 'PZA019',
+    customerName: 'Christopher Lee',
+    customerPhone: '+1 (555) 789-0123',
+    address: '147 Park Ave, Manhattan, NY 10016',
+    scheduledTime: new Date(now.getTime() + 90 * 60 * 1000).toISOString(), // 1.5 hours from now
+    estimatedDuration: 25,
+    status: 'scheduled',
     driverName: 'Alex Rodriguez',
     priority: 'high',
-    items: ['Large Meat Lovers Pizza', 'Chicken Wings', 'Soda'],
-    notes: 'Traffic delay reported'
+    items: ['Large Supreme Pizza', 'Garlic Knots', 'Orange Soda'],
+    notes: 'Office building - ask for Christopher at reception'
+  },
+  {
+    id: 'DEL008',
+    orderId: 'PZA018',
+    customerName: 'Maria Gonzalez',
+    customerPhone: '+1 (555) 890-1234',
+    address: '258 First Ave, Brooklyn, NY 11215',
+    scheduledTime: new Date(now.getTime() - 10 * 60 * 1000).toISOString(), // 10 minutes ago
+    estimatedDuration: 35,
+    status: 'in-progress',
+    driverName: 'Lisa Chen',
+    priority: 'medium',
+    items: ['Medium Mushroom Pizza', 'Greek Salad', 'Water'],
+    notes: 'Third floor, apartment 3C'
+  },
+  {
+    id: 'DEL009',
+    orderId: 'PZA017',
+    customerName: 'James Wilson',
+    customerPhone: '+1 (555) 901-2345',
+    address: '369 Second St, Queens, NY 11101',
+    scheduledTime: new Date(now.getTime() + 120 * 60 * 1000).toISOString(), // 2 hours from now
+    estimatedDuration: 30,
+    status: 'scheduled',
+    driverName: 'Sarah Martinez',
+    priority: 'low',
+    items: ['Large White Pizza', 'Chicken Caesar Wrap'],
+    notes: 'House with red door'
+  },
+  {
+    id: 'DEL010',
+    orderId: 'PZA016',
+    customerName: 'Lisa Thompson',
+    customerPhone: '+1 (555) 012-3456',
+    address: '741 Third Ave, Bronx, NY 10456',
+    scheduledTime: new Date(now.getTime() + 20 * 60 * 1000).toISOString(), // 20 minutes from now
+    estimatedDuration: 50,
+    status: 'delayed',
+    driverName: 'Mike Johnson',
+    priority: 'high',
+    items: ['Large Quattro Stagioni Pizza', 'Tiramisu', 'Iced Tea'],
+    notes: 'Traffic delay reported - customer notified'
   }
 ]
 
 export default function SchedulePage() {
-  const [schedule] = useState<DeliverySchedule[]>(mockSchedule)
+  const [schedule, setSchedule] = useState<DeliverySchedule[]>(mockSchedule)
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [viewMode, setViewMode] = useState<'day' | 'week'>('day')
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const filteredSchedule = useMemo(() => {
     const today = new Date(selectedDate)
@@ -148,6 +227,40 @@ export default function SchedulePage() {
     setSelectedDate(newDate)
   }
 
+  const handleScheduleDelivery = (formData: ScheduleDeliveryFormData) => {
+    // Generate new delivery ID
+    const newId = `DEL${String(schedule.length + 1).padStart(3, '0')}`
+
+    // Convert form data to DeliverySchedule format
+    const newDelivery: DeliverySchedule = {
+      id: newId,
+      orderId: formData.orderId,
+      customerName: formData.customerName,
+      customerPhone: formData.customerPhone,
+      address: formData.address,
+      scheduledTime: new Date(`${formData.scheduledDate}T${formData.scheduledTime}`).toISOString(),
+      estimatedDuration: formData.estimatedDuration,
+      status: 'scheduled',
+      driverName: availableDrivers.find(d => d.value === formData.driverName)?.label || formData.driverName,
+      priority: formData.priority,
+      items: formData.items,
+      notes: formData.notes
+    }
+
+    // Add to schedule
+    setSchedule(prev => [...prev, newDelivery])
+    setIsModalOpen(false)
+  }
+
+  // Driver options for the form
+  const availableDrivers = [
+    { value: 'mike-johnson', label: 'Mike Johnson' },
+    { value: 'sarah-martinez', label: 'Sarah Martinez' },
+    { value: 'alex-rodriguez', label: 'Alex Rodriguez' },
+    { value: 'lisa-chen', label: 'Lisa Chen' },
+    { value: 'david-wilson', label: 'David Wilson' }
+  ]
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -156,7 +269,7 @@ export default function SchedulePage() {
           <h1 className="text-3xl font-bold text-[#555555]">Delivery Schedule</h1>
           <p className="text-[#555555]/70 mt-1">Manage delivery schedules and driver assignments</p>
         </div>
-        <Button icon={<Plus className="h-4 w-4" />}>
+        <Button icon={<Plus className="h-4 w-4" />} onClick={() => setIsModalOpen(true)}>
           Schedule Delivery
         </Button>
       </div>
@@ -338,6 +451,13 @@ export default function SchedulePage() {
           )}
         </CardContent>
       </Card>
+
+      {/* Schedule Delivery Modal */}
+      <ScheduleDeliveryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleScheduleDelivery}
+      />
     </div>
   )
 }

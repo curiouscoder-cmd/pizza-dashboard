@@ -54,11 +54,29 @@ export const resetPasswordSchema = z
     path: ['confirmPassword'],
   })
 
+// Schedule delivery form validation
+export const scheduleDeliverySchema = z.object({
+  orderId: z.string().min(1, 'Order ID is required'),
+  customerName: z.string().min(2, 'Customer name must be at least 2 characters'),
+  customerPhone: z.string().regex(/^\+?[\d\s\-\(\)]+$/, 'Please enter a valid phone number'),
+  address: z.string().min(10, 'Please enter a complete address'),
+  scheduledDate: z.string().min(1, 'Scheduled date is required'),
+  scheduledTime: z.string().min(1, 'Scheduled time is required'),
+  estimatedDuration: z.number().min(10, 'Duration must be at least 10 minutes').max(120, 'Duration cannot exceed 120 minutes'),
+  driverName: z.string().min(1, 'Please select a driver'),
+  priority: z.enum(['low', 'medium', 'high'], {
+    required_error: 'Please select a priority level'
+  }),
+  items: z.array(z.string()).min(1, 'At least one item is required'),
+  notes: z.string().optional()
+})
+
 // Type exports
 export type SignUpFormData = z.infer<typeof signUpSchema>
 export type SignInFormData = z.infer<typeof signInSchema>
 export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>
+export type ScheduleDeliveryFormData = z.infer<typeof scheduleDeliverySchema>
 
 // Password strength checker
 export const checkPasswordStrength = (password: string): {

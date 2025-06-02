@@ -32,117 +32,239 @@ interface Activity {
   metadata?: Record<string, string | number | boolean | string[]>
 }
 
+// Generate dynamic timestamps for realistic data
+const now = new Date()
+const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000)
+const twoDaysAgo = new Date(today.getTime() - 2 * 24 * 60 * 60 * 1000)
+const threeDaysAgo = new Date(today.getTime() - 3 * 24 * 60 * 60 * 1000)
+
 const mockActivities: Activity[] = [
+  // Today's activities
   {
     id: 'ACT001',
     type: 'order',
     action: 'Order Created',
-    description: 'New order PZA020 created by John Smith',
-    timestamp: '2024-01-16T14:30:00',
+    description: 'New order PZA025 created by Michael Chen',
+    timestamp: new Date(now.getTime() - 15 * 60 * 1000).toISOString(), // 15 minutes ago
     user: 'System',
-    orderId: 'PZA020',
-    customerId: 'CUST001',
+    orderId: 'PZA025',
+    customerId: 'CUST008',
     status: 'success',
-    metadata: { amount: 24.99, items: 2 }
+    metadata: { amount: 28.99, items: 3, pizzaType: 'Large Pepperoni' }
   },
   {
     id: 'ACT002',
-    type: 'order',
-    action: 'Order Status Updated',
-    description: 'Order PZA019 status changed to "Preparing"',
-    timestamp: '2024-01-16T14:25:00',
-    user: 'Kitchen Staff',
-    orderId: 'PZA019',
-    status: 'info',
-    metadata: { previousStatus: 'Pending', newStatus: 'Preparing' }
+    type: 'payment',
+    action: 'Payment Processed',
+    description: 'Payment of $28.99 processed for order PZA025',
+    timestamp: new Date(now.getTime() - 10 * 60 * 1000).toISOString(), // 10 minutes ago
+    user: 'Payment Gateway',
+    orderId: 'PZA025',
+    status: 'success',
+    metadata: { amount: 28.99, method: 'Credit Card', last4: '8765', processor: 'Stripe' }
   },
   {
     id: 'ACT003',
-    type: 'delivery',
-    action: 'Delivery Started',
-    description: 'Driver Mike Johnson started delivery for order PZA018',
-    timestamp: '2024-01-16T14:20:00',
-    user: 'Mike Johnson',
-    orderId: 'PZA018',
+    type: 'order',
+    action: 'Order Status Updated',
+    description: 'Order PZA024 status changed to "Out for Delivery"',
+    timestamp: new Date(now.getTime() - 5 * 60 * 1000).toISOString(), // 5 minutes ago
+    user: 'Kitchen Staff',
+    orderId: 'PZA024',
     status: 'info',
-    metadata: { estimatedTime: 25, driverPhone: '+1-555-0123' }
+    metadata: { previousStatus: 'Preparing', newStatus: 'Out for Delivery', estimatedDelivery: '30 minutes' }
   },
   {
     id: 'ACT004',
-    type: 'payment',
-    action: 'Payment Processed',
-    description: 'Payment of $32.50 processed for order PZA017',
-    timestamp: '2024-01-16T14:15:00',
-    user: 'Payment Gateway',
-    orderId: 'PZA017',
-    status: 'success',
-    metadata: { amount: 32.50, method: 'Credit Card', last4: '4242' }
+    type: 'delivery',
+    action: 'Delivery Started',
+    description: 'Driver Sarah Martinez started delivery for order PZA024',
+    timestamp: new Date(now.getTime() - 3 * 60 * 1000).toISOString(), // 3 minutes ago
+    user: 'Sarah Martinez',
+    orderId: 'PZA024',
+    status: 'info',
+    metadata: { estimatedTime: 25, driverPhone: '+1-555-0198', vehicleType: 'Motorcycle' }
   },
   {
     id: 'ACT005',
-    type: 'customer',
-    action: 'Customer Registered',
-    description: 'New customer Emily Wilson registered',
-    timestamp: '2024-01-16T14:10:00',
-    user: 'System',
-    customerId: 'CUST005',
+    type: 'system',
+    action: 'Inventory Update',
+    description: 'Pepperoni stock replenished - 50 units added',
+    timestamp: new Date(now.getTime() - 30 * 60 * 1000).toISOString(), // 30 minutes ago
+    user: 'Inventory System',
     status: 'success',
-    metadata: { email: 'emily.wilson@email.com', phone: '+1-555-0456' }
+    metadata: { item: 'Pepperoni', addedStock: 50, newTotal: 125, supplier: 'Fresh Foods Inc' }
   },
   {
     id: 'ACT006',
-    type: 'order',
-    action: 'Order Cancelled',
-    description: 'Order PZA016 cancelled by customer request',
-    timestamp: '2024-01-16T14:05:00',
-    user: 'Customer Service',
-    orderId: 'PZA016',
-    status: 'warning',
-    metadata: { reason: 'Customer request', refundAmount: 18.75 }
+    type: 'customer',
+    action: 'Customer Registered',
+    description: 'New customer Jessica Rodriguez registered',
+    timestamp: new Date(now.getTime() - 45 * 60 * 1000).toISOString(), // 45 minutes ago
+    user: 'System',
+    customerId: 'CUST009',
+    status: 'success',
+    metadata: { email: 'jessica.rodriguez@email.com', phone: '+1-555-0789', source: 'Mobile App' }
   },
   {
     id: 'ACT007',
-    type: 'delivery',
-    action: 'Delivery Completed',
-    description: 'Order PZA015 successfully delivered to Sarah Johnson',
-    timestamp: '2024-01-16T14:00:00',
-    user: 'Alex Rodriguez',
-    orderId: 'PZA015',
-    customerId: 'CUST002',
+    type: 'order',
+    action: 'Order Created',
+    description: 'New order PZA023 created by David Kim',
+    timestamp: new Date(now.getTime() - 60 * 60 * 1000).toISOString(), // 1 hour ago
+    user: 'System',
+    orderId: 'PZA023',
+    customerId: 'CUST007',
     status: 'success',
-    metadata: { deliveryTime: 23, rating: 5 }
+    metadata: { amount: 35.50, items: 4, pizzaType: 'Large Hawaiian + Garlic Bread' }
   },
   {
     id: 'ACT008',
-    type: 'system',
-    action: 'System Alert',
-    description: 'Low inventory alert for Mozzarella Cheese',
-    timestamp: '2024-01-16T13:55:00',
-    user: 'Inventory System',
-    status: 'warning',
-    metadata: { item: 'Mozzarella Cheese', currentStock: 5, threshold: 10 }
+    type: 'delivery',
+    action: 'Delivery Completed',
+    description: 'Order PZA022 successfully delivered to Amanda Wilson',
+    timestamp: new Date(now.getTime() - 90 * 60 * 1000).toISOString(), // 1.5 hours ago
+    user: 'Mike Johnson',
+    orderId: 'PZA022',
+    customerId: 'CUST006',
+    status: 'success',
+    metadata: { deliveryTime: 28, rating: 5, tip: 5.00, feedback: 'Excellent service!' }
   },
   {
     id: 'ACT009',
-    type: 'order',
-    action: 'Order Modified',
-    description: 'Order PZA014 modified - added extra toppings',
-    timestamp: '2024-01-16T13:50:00',
-    user: 'Customer Service',
-    orderId: 'PZA014',
-    status: 'info',
-    metadata: { addedItems: ['Extra Cheese', 'Pepperoni'], additionalCost: 4.50 }
+    type: 'system',
+    action: 'System Alert',
+    description: 'High order volume detected - peak hours active',
+    timestamp: new Date(now.getTime() - 120 * 60 * 1000).toISOString(), // 2 hours ago
+    user: 'Monitoring System',
+    status: 'warning',
+    metadata: { currentOrders: 15, averageOrders: 8, threshold: 12, recommendation: 'Consider additional staff' }
   },
   {
     id: 'ACT010',
+    type: 'order',
+    action: 'Order Modified',
+    description: 'Order PZA021 modified - changed pizza size from Medium to Large',
+    timestamp: new Date(now.getTime() - 150 * 60 * 1000).toISOString(), // 2.5 hours ago
+    user: 'Customer Service',
+    orderId: 'PZA021',
+    status: 'info',
+    metadata: { originalSize: 'Medium', newSize: 'Large', priceDifference: 4.00, reason: 'Customer request' }
+  },
+
+  // Yesterday's activities
+  {
+    id: 'ACT011',
     type: 'delivery',
     action: 'Delivery Delayed',
-    description: 'Delivery for order PZA013 delayed due to traffic',
-    timestamp: '2024-01-16T13:45:00',
-    user: 'Lisa Chen',
-    orderId: 'PZA013',
+    description: 'Delivery for order PZA020 delayed due to weather conditions',
+    timestamp: new Date(yesterday.getTime() + 20 * 60 * 60 * 1000).toISOString(),
+    user: 'Alex Rodriguez',
+    orderId: 'PZA020',
     status: 'error',
-    metadata: { originalETA: '14:00', newETA: '14:20', reason: 'Heavy traffic' }
+    metadata: { originalETA: '19:30', newETA: '20:00', reason: 'Heavy rain', compensation: 'Free dessert' }
+  },
+  {
+    id: 'ACT012',
+    type: 'payment',
+    action: 'Payment Failed',
+    description: 'Payment failed for order PZA019 - insufficient funds',
+    timestamp: new Date(yesterday.getTime() + 18 * 60 * 60 * 1000).toISOString(),
+    user: 'Payment Gateway',
+    orderId: 'PZA019',
+    status: 'error',
+    metadata: { amount: 22.50, method: 'Credit Card', errorCode: 'INSUFFICIENT_FUNDS', retryAttempts: 2 }
+  },
+  {
+    id: 'ACT013',
+    type: 'customer',
+    action: 'Customer Updated Profile',
+    description: 'Customer John Smith updated delivery address',
+    timestamp: new Date(yesterday.getTime() + 16 * 60 * 60 * 1000).toISOString(),
+    user: 'John Smith',
+    customerId: 'CUST001',
+    status: 'info',
+    metadata: { field: 'address', oldValue: '123 Main St', newValue: '456 Oak Ave', verified: true }
+  },
+  {
+    id: 'ACT014',
+    type: 'order',
+    action: 'Order Cancelled',
+    description: 'Order PZA018 cancelled - customer changed mind',
+    timestamp: new Date(yesterday.getTime() + 14 * 60 * 60 * 1000).toISOString(),
+    user: 'Customer Service',
+    orderId: 'PZA018',
+    status: 'warning',
+    metadata: { reason: 'Customer changed mind', refundAmount: 19.99, processingTime: '2-3 business days' }
+  },
+  {
+    id: 'ACT015',
+    type: 'system',
+    action: 'Database Backup',
+    description: 'Daily database backup completed successfully',
+    timestamp: new Date(yesterday.getTime() + 2 * 60 * 60 * 1000).toISOString(),
+    user: 'System',
+    status: 'success',
+    metadata: { backupSize: '2.3 GB', duration: '15 minutes', location: 'AWS S3', retention: '30 days' }
+  },
+
+  // Two days ago
+  {
+    id: 'ACT016',
+    type: 'order',
+    action: 'Bulk Order Created',
+    description: 'Corporate order for 25 pizzas created by TechCorp Inc',
+    timestamp: new Date(twoDaysAgo.getTime() + 15 * 60 * 60 * 1000).toISOString(),
+    user: 'System',
+    orderId: 'PZA017',
+    customerId: 'CORP001',
+    status: 'success',
+    metadata: { amount: 425.00, items: 25, deliveryDate: 'Tomorrow', specialInstructions: 'Office delivery' }
+  },
+  {
+    id: 'ACT017',
+    type: 'system',
+    action: 'System Maintenance',
+    description: 'Scheduled system maintenance completed - performance optimizations',
+    timestamp: new Date(twoDaysAgo.getTime() + 3 * 60 * 60 * 1000).toISOString(),
+    user: 'IT Team',
+    status: 'success',
+    metadata: { duration: '2 hours', downtime: '0 minutes', improvements: 'Database indexing, cache optimization' }
+  },
+
+  // Three days ago
+  {
+    id: 'ACT018',
+    type: 'customer',
+    action: 'Customer Complaint',
+    description: 'Customer reported cold pizza delivery - order PZA015',
+    timestamp: new Date(threeDaysAgo.getTime() + 19 * 60 * 60 * 1000).toISOString(),
+    user: 'Customer Service',
+    orderId: 'PZA015',
+    customerId: 'CUST003',
+    status: 'error',
+    metadata: { issue: 'Cold food', resolution: 'Full refund + free pizza', satisfactionRating: 4 }
+  },
+  {
+    id: 'ACT019',
+    type: 'system',
+    action: 'Security Alert',
+    description: 'Multiple failed login attempts detected from IP 192.168.1.100',
+    timestamp: new Date(threeDaysAgo.getTime() + 10 * 60 * 60 * 1000).toISOString(),
+    user: 'Security System',
+    status: 'warning',
+    metadata: { attempts: 5, sourceIP: '192.168.1.100', action: 'IP temporarily blocked', duration: '24 hours' }
+  },
+  {
+    id: 'ACT020',
+    type: 'delivery',
+    action: 'Driver Shift Started',
+    description: 'Driver Lisa Chen started evening shift',
+    timestamp: new Date(threeDaysAgo.getTime() + 17 * 60 * 60 * 1000).toISOString(),
+    user: 'Lisa Chen',
+    status: 'info',
+    metadata: { shiftStart: '17:00', shiftEnd: '23:00', vehicle: 'Car', zone: 'Downtown' }
   }
 ]
 
