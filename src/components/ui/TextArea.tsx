@@ -41,7 +41,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             className={cn(
               "flex min-h-[80px] w-full rounded-lg border-2 bg-white px-3 py-2 text-sm transition-all duration-200",
               "border-[#F4E1B5] focus:border-[#E63946] focus:outline-none focus:ring-2 focus:ring-red-100",
-              "placeholder:text-slate-400",
+              "placeholder:text-slate-400 text-black",
               "disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-slate-50",
               resizeClasses[resize],
               error && "border-red-500 focus:border-red-500 focus:ring-red-100",

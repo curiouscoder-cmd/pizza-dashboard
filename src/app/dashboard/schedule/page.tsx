@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/Badge'
 import { ScheduleDeliveryModal } from '@/components/ScheduleDeliveryModal'
 import { Calendar, Clock, Plus, User, MapPin, Phone, ChevronLeft, ChevronRight } from 'lucide-react'
 import { type ScheduleDeliveryFormData } from '@/lib/validations'
+import { useToast } from '@/components/ui/Toast'
 
 interface DeliverySchedule {
   id: string
@@ -174,6 +175,8 @@ export default function SchedulePage() {
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [viewMode, setViewMode] = useState<'day' | 'week'>('day')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [newlyAddedId, setNewlyAddedId] = useState<string | null>(null)
+  const { addToast } = useToast()
 
   const filteredSchedule = useMemo(() => {
     const today = new Date(selectedDate)
@@ -247,9 +250,32 @@ export default function SchedulePage() {
       notes: formData.notes
     }
 
+    console.log('Adding new delivery:', newDelivery)
+
     // Add to schedule
-    setSchedule(prev => [...prev, newDelivery])
+    setSchedule(prev => {
+      const updated = [...prev, newDelivery]
+      console.log('Updated schedule:', updated)
+      return updated
+    })
+
+    // Set the selected date to the delivery date to show the new delivery
+    const deliveryDate = new Date(formData.scheduledDate)
+    setSelectedDate(deliveryDate)
+
+    // Mark as newly added for visual feedback
+    setNewlyAddedId(newId)
+    setTimeout(() => setNewlyAddedId(null), 3000) // Remove highlight after 3 seconds
+
     setIsModalOpen(false)
+
+    // Show success message
+    addToast({
+      type: 'success',
+      title: 'Delivery Scheduled!',
+      description: `Delivery for ${formData.customerName} has been scheduled for ${new Date(formData.scheduledDate).toLocaleDateString()} at ${formData.scheduledTime}`,
+      duration: 5000
+    })
   }
 
   // Driver options for the form
@@ -375,7 +401,11 @@ export default function SchedulePage() {
                 {index < filteredSchedule.length - 1 && (
                   <div className="absolute left-6 top-12 w-0.5 h-16 bg-[#F4E1B5]"></div>
                 )}
-                <div className="flex items-start gap-4 p-4 rounded-lg border border-[#F4E1B5] hover:bg-[#FFF5E1]/50 transition-colors">
+                <div className={`flex items-start gap-4 p-4 rounded-lg border transition-all duration-500 ${
+                  delivery.id === newlyAddedId
+                    ? 'border-[#E63946] bg-[#E63946]/10 shadow-lg animate-pulse'
+                    : 'border-[#F4E1B5] hover:bg-[#FFF5E1]/50'
+                }`}>
                   <div className="flex-shrink-0">
                     <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
                       delivery.status === 'completed' ? 'bg-[#7FB069]' :

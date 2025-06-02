@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Modal, ModalBody, ModalFooter } from '@/components/ui/Modal'
@@ -81,6 +81,27 @@ export const ScheduleDeliveryModal: React.FC<ScheduleDeliveryModalProps> = ({
     onClose()
   }
 
+  // Reset form and scroll when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      reset({
+        estimatedDuration: 30,
+        priority: 'medium',
+        items: []
+      })
+      setSelectedItems([])
+      setCustomItem('')
+
+      // Reset scroll position
+      setTimeout(() => {
+        const modalBody = document.querySelector('[data-modal-body]')
+        if (modalBody) {
+          modalBody.scrollTop = 0
+        }
+      }, 100)
+    }
+  }, [isOpen, reset])
+
   const handleFormSubmit = async (data: ScheduleDeliveryFormData) => {
     try {
       const formData = {
@@ -140,10 +161,16 @@ export const ScheduleDeliveryModal: React.FC<ScheduleDeliveryModalProps> = ({
   const timeSlots = generateTimeSlots()
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Schedule New Delivery" size="lg">
-      <form onSubmit={handleSubmit(handleFormSubmit)}>
+    <Modal
+      key={isOpen ? 'open' : 'closed'}
+      isOpen={isOpen}
+      onClose={handleClose}
+      title="Schedule New Delivery"
+      size="lg"
+    >
+      <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col h-full">
         <ModalBody>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Order ID */}
             <Input
               label="Order ID"
@@ -250,7 +277,7 @@ export const ScheduleDeliveryModal: React.FC<ScheduleDeliveryModalProps> = ({
             </label>
             
             {/* Common Items */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mb-3 max-h-48 overflow-y-auto">
               {commonItems.map((item) => (
                 <button
                   key={item}

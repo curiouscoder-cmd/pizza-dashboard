@@ -45,7 +45,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
               "flex h-10 w-full rounded-lg border-2 bg-white px-3 py-2 text-sm transition-all duration-200",
               "border-[#F4E1B5] focus:border-[#E63946] focus:outline-none focus:ring-2 focus:ring-red-100",
               "disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-slate-50",
-              "appearance-none cursor-pointer",
+              "appearance-none cursor-pointer text-black",
               leftIcon && "pl-10",
               "pr-10",
               error && "border-red-500 focus:border-red-500 focus:ring-red-100",

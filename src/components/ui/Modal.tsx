@@ -32,6 +32,14 @@ export const Modal: React.FC<ModalProps> = ({
     if (isOpen) {
       document.addEventListener('keydown', handleEscape)
       document.body.style.overflow = 'hidden'
+
+      // Reset scroll position when modal opens
+      setTimeout(() => {
+        const modalBody = document.querySelector('[data-modal-body]')
+        if (modalBody) {
+          modalBody.scrollTop = 0
+        }
+      }, 0)
     }
 
     return () => {
@@ -51,24 +59,24 @@ export const Modal: React.FC<ModalProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-fade-in"
         onClick={onClose}
       />
-      
+
       {/* Modal */}
       <div
         className={cn(
-          'relative w-full mx-4 bg-[#FFF5E1] rounded-2xl shadow-2xl border border-[#F4E1B5] animate-scale-in',
+          'relative w-full bg-[#FFF5E1] rounded-2xl shadow-2xl border border-[#F4E1B5] animate-scale-in max-h-[90vh] flex flex-col',
           sizeClasses[size],
           className
         )}
       >
         {/* Header */}
         {title && (
-          <div className="flex items-center justify-between p-6 border-b border-[#F4E1B5]">
+          <div className="flex items-center justify-between p-6 border-b border-[#F4E1B5] flex-shrink-0">
             <h2 className="text-xl font-semibold text-[#555555]">{title}</h2>
             <Button
               variant="ghost"
@@ -80,9 +88,9 @@ export const Modal: React.FC<ModalProps> = ({
             </Button>
           </div>
         )}
-        
+
         {/* Content */}
-        <div className="p-6">
+        <div className="flex-1 overflow-hidden">
           {children}
         </div>
       </div>
@@ -107,7 +115,11 @@ interface ModalBodyProps {
 }
 
 export const ModalBody: React.FC<ModalBodyProps> = ({ children, className }) => (
-  <div className={cn('space-y-4', className)}>
+  <div
+    data-modal-body
+    className={cn('flex-1 overflow-y-auto p-6 space-y-4', className)}
+    style={{ maxHeight: 'calc(90vh - 200px)' }}
+  >
     {children}
   </div>
 )
@@ -118,7 +130,7 @@ interface ModalFooterProps {
 }
 
 export const ModalFooter: React.FC<ModalFooterProps> = ({ children, className }) => (
-  <div className={cn('flex items-center justify-end gap-3 mt-6 pt-4 border-t border-[#F4E1B5]', className)}>
+  <div className={cn('flex items-center justify-end gap-3 px-6 py-4 border-t border-[#F4E1B5] flex-shrink-0 bg-[#FFF5E1]', className)}>
     {children}
   </div>
 )

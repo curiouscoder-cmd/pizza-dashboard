@@ -52,7 +52,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               className={cn(
                 "peer w-full h-12 px-4 pt-6 pb-2 text-sm bg-white border-2 rounded-lg transition-all duration-200",
                 "border-[#F4E1B5] focus:border-[#E63946] focus:outline-none",
-                "placeholder-transparent",
+                "placeholder-transparent text-black",
                 leftIcon && "pl-10",
                 (rightIcon || isPassword || error || success) && "pr-10",
                 error && "border-red-500 focus:border-red-500",
@@ -153,7 +153,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             className={cn(
               "flex h-10 w-full rounded-lg border-2 bg-white px-3 py-2 text-sm transition-all duration-200",
               "border-[#F4E1B5] focus:border-[#E63946] focus:outline-none focus:ring-2 focus:ring-red-100",
-              "placeholder:text-slate-400",
+              "placeholder:text-slate-400 text-black",
               "disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-slate-50",
               leftIcon && "pl-10",
               (rightIcon || isPassword || error || success) && "pr-10",
