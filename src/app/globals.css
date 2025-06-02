@@ -1,26 +1,236 @@
 @import "tailwindcss";
 
+/* Enhanced Design System Variables - Minimal Creamy Margherita Theme */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Light Theme Colors - Creamy Margherita */
+  --background: #FFF5E1; /* Creamy Mozzarella */
+  --foreground: #555555; /* Soft Text Grey */
+  --muted: #F4E1B5; /* Dough Beige */
+  --muted-foreground: #555555;
+  --border: #F4E1B5;
+  --input: #FFF5E1;
+  --card: #FFF5E1;
+  --card-foreground: #555555;
+  --popover: #FFF5E1;
+  --popover-foreground: #555555;
+
+  /* Primary Colors - Saucy Red Theme */
+  --primary: #E63946; /* Saucy Red */
+  --primary-foreground: #FFF5E1;
+  --primary-50: #fef2f2;
+  --primary-100: #fee2e2;
+  --primary-200: #fecaca;
+  --primary-300: #fca5a5;
+  --primary-400: #f87171;
+  --primary-500: #E63946;
+  --primary-600: #dc2626;
+  --primary-700: #b91c1c;
+  --primary-800: #991b1b;
+  --primary-900: #7f1d1d;
+
+  /* Secondary Colors - Dough Beige */
+  --secondary: #F4E1B5;
+  --secondary-foreground: #555555;
+
+  /* Accent Colors - Basil Green */
+  --accent: #7FB069;
+  --accent-foreground: #FFF5E1;
+
+  /* Semantic Colors */
+  --success: #7FB069; /* Basil Green for success */
+  --success-foreground: #FFF5E1;
+  --warning: #f59e0b;
+  --warning-foreground: #FFF5E1;
+  --error: #E63946; /* Saucy Red for errors */
+  --error-foreground: #FFF5E1;
+  --info: #7FB069; /* Basil Green for info */
+  --info-foreground: #FFF5E1;
+
+  /* Destructive */
+  --destructive: #E63946;
+  --destructive-foreground: #FFF5E1;
+
+  /* Ring */
+  --ring: #E63946;
+
+  /* Radius */
+  --radius: 0.5rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark mode with warm tones */
+    --background: #2d1b0e; /* Dark warm brown */
+    --foreground: #FFF5E1; /* Creamy Mozzarella */
+    --muted: #3d2817; /* Darker dough */
+    --muted-foreground: #F4E1B5;
+    --border: #4a3424;
+    --input: #2d1b0e;
+    --card: #2d1b0e;
+    --card-foreground: #FFF5E1;
+    --popover: #2d1b0e;
+    --popover-foreground: #FFF5E1;
+    --secondary: #3d2817;
+    --secondary-foreground: #FFF5E1;
+    --accent: #7FB069;
+    --accent-foreground: #FFF5E1;
+    --ring: #E63946;
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+  --radius: var(--radius);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base Styles */
+* {
+  border-color: var(--border);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  font-feature-settings: "rlig" 1, "calt" 1;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Focus Styles */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Selection Styles */
+::selection {
+  background: var(--primary-200);
+  color: var(--primary-900);
+}
+
+/* Animation Classes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s ease-out;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.4s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.2s ease-out;
+}
+
+/* Utility Classes */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.gradient-primary {
+  background: linear-gradient(135deg, #E63946 0%, #dc2626 100%);
+}
+
+.gradient-secondary {
+  background: linear-gradient(135deg, #F4E1B5 0%, #e6d09a 100%);
+}
+
+.gradient-basil {
+  background: linear-gradient(135deg, #7FB069 0%, #6a9c56 100%);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #E63946 0%, #b91c1c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

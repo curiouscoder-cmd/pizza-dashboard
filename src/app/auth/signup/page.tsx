@@ -66,7 +66,7 @@ export default function SignUp() {
               Check Your Email
             </h2>
             <p className="mt-2 text-sm text-gray-600">
-              We've sent a verification link to your email address. Please click the link to verify your account before signing in.
+              We&apos;ve sent a verification link to your email address. Please click the link to verify your account before signing in.
             </p>
           </div>
           
@@ -81,7 +81,7 @@ export default function SignUp() {
             
             <div className="text-center">
               <p className="text-sm text-gray-600">
-                Didn't receive the email?{' '}
+                Didn&apos;t receive the email?{' '}
                 <button
                   onClick={() => setSuccess(false)}
                   className="font-medium text-orange-600 hover:text-orange-500"

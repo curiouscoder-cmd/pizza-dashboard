@@ -1,21 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import SessionProvider from "@/components/providers/SessionProvider";
+import { ToastProvider } from "@/components/ui/Toast";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Pizza Dashboard",
-  description: "Manage your pizza orders with Google OAuth authentication",
+  title: "Pizza Dashboard - Order Management System",
+  description: "Modern pizza order management dashboard with multi-provider authentication and real-time tracking",
+  keywords: ["pizza", "dashboard", "orders", "management", "restaurant"],
+  authors: [{ name: "Pizza Dashboard Team" }],
+  viewport: "width=device-width, initial-scale=1",
 };
 
 export default function RootLayout({
@@ -24,13 +30,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}
       >
-        <SessionProvider>
-          {children}
-        </SessionProvider>
+        <ToastProvider>
+          <SessionProvider>
+            {children}
+          </SessionProvider>
+        </ToastProvider>
       </body>
     </html>
   );

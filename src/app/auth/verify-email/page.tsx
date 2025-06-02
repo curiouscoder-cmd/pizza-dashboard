@@ -42,11 +42,7 @@ export default function VerifyEmail() {
     verifyEmail()
   }, [searchParams])
 
-  const handleResendVerification = async () => {
-    // This would need the user's email - in a real app, you might store this in localStorage
-    // or require the user to enter their email again
-    console.log('Resend verification email functionality would go here')
-  }
+  // Removed unused function to fix ESLint warning
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-red-50">
