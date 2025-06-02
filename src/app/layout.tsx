@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import SessionProvider from "@/components/providers/SessionProvider";
 import { ToastProvider } from "@/components/ui/Toast";
@@ -40,6 +41,7 @@ export default function RootLayout({
             {children}
           </SessionProvider>
         </ToastProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
