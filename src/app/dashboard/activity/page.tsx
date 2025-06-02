@@ -29,7 +29,7 @@ interface Activity {
   orderId?: string
   customerId?: string
   status: 'success' | 'warning' | 'error' | 'info'
-  metadata?: Record<string, string | number | boolean>
+  metadata?: Record<string, string | number | boolean | string[]>
 }
 
 const mockActivities: Activity[] = [
@@ -450,7 +450,9 @@ export default function ActivityPage() {
                             {Object.entries(activity.metadata).map(([key, value]) => (
                               <div key={key}>
                                 <span className="font-medium text-[#555555]">{key}:</span>
-                                <span className="text-[#555555]/70 ml-1">{String(value)}</span>
+                                <span className="text-[#555555]/70 ml-1">
+                                  {Array.isArray(value) ? value.join(', ') : String(value)}
+                                </span>
                               </div>
                             ))}
                           </div>
