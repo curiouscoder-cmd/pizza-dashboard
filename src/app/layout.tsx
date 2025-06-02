@@ -21,8 +21,9 @@ export const metadata: Metadata = {
   description: "Modern pizza order management dashboard with multi-provider authentication and real-time tracking",
   keywords: ["pizza", "dashboard", "orders", "management", "restaurant"],
   authors: [{ name: "Pizza Dashboard Team" }],
-  viewport: "width=device-width, initial-scale=1",
 };
+
+export const viewport = "width=device-width, initial-scale=1";
 
 export default function RootLayout({
   children,

@@ -2,7 +2,7 @@
 
 import { signIn, getSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { Eye, EyeOff } from 'lucide-react'
 
-export default function SignIn() {
+function SignInContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [activeTab, setActiveTab] = useState<'google' | 'email'>('google')
@@ -219,5 +219,38 @@ export default function SignIn() {
         </div>
       </div>
     </div>
+  )
+}
+
+// Loading component for Suspense fallback
+function SignInLoading() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-red-50">
+      <div className="max-w-md w-full space-y-8 p-8">
+        <div className="text-center">
+          <div className="mx-auto h-16 w-16 bg-orange-500 rounded-full flex items-center justify-center mb-4">
+            <span className="text-2xl">🍕</span>
+          </div>
+          <h2 className="mt-6 text-3xl font-bold text-gray-900">
+            Pizza Dashboard
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Loading sign in page...
+          </p>
+        </div>
+        <div className="flex justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Main component with Suspense boundary
+export default function SignIn() {
+  return (
+    <Suspense fallback={<SignInLoading />}>
+      <SignInContent />
+    </Suspense>
   )
 }
