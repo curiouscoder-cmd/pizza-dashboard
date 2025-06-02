@@ -71,12 +71,35 @@ export const scheduleDeliverySchema = z.object({
   notes: z.string().optional()
 })
 
+// Add customer form validation
+export const addCustomerSchema = z.object({
+  name: z
+    .string()
+    .min(2, 'Customer name must be at least 2 characters')
+    .max(50, 'Customer name must be less than 50 characters')
+    .regex(/^[a-zA-Z\s]+$/, 'Name can only contain letters and spaces'),
+  email: emailSchema,
+  phone: z
+    .string()
+    .regex(/^\+?[\d\s\-\(\)]+$/, 'Please enter a valid phone number')
+    .min(10, 'Phone number must be at least 10 digits'),
+  address: z
+    .string()
+    .min(10, 'Please enter a complete address')
+    .max(200, 'Address must be less than 200 characters'),
+  status: z.enum(['active', 'inactive', 'vip'], {
+    required_error: 'Please select a customer status'
+  }).default('active'),
+  notes: z.string().max(500, 'Notes must be less than 500 characters').optional()
+})
+
 // Type exports
 export type SignUpFormData = z.infer<typeof signUpSchema>
 export type SignInFormData = z.infer<typeof signInSchema>
 export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>
 export type ScheduleDeliveryFormData = z.infer<typeof scheduleDeliverySchema>
+export type AddCustomerFormData = z.infer<typeof addCustomerSchema>
 
 // Password strength checker
 export const checkPasswordStrength = (password: string): {

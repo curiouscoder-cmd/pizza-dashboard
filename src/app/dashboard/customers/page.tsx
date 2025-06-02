@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Badge } from '@/components/ui/Badge'
-import { Search, Plus, Phone, Mail, MapPin, Calendar, ShoppingCart, Star, MoreVertical, Edit } from 'lucide-react'
+import { Search, Plus, Phone, Mail, MapPin, Calendar, ShoppingCart, Star, MoreVertical, Edit, RefreshCw, User } from 'lucide-react'
 import { Modal, ModalBody, ModalFooter } from '@/components/ui/Modal'
+import AddCustomerModal from '@/components/AddCustomerModal'
 
 interface Customer {
   id: string
@@ -97,10 +98,46 @@ const mockCustomers: Customer[] = [
 ]
 
 export default function CustomersPage() {
-  const [customers] = useState<Customer[]>(mockCustomers)
+  const [customers, setCustomers] = useState<Customer[]>([])
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive' | 'vip'>('all')
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null)
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Fetch customers from API
+  const fetchCustomers = async () => {
+    try {
+      setIsLoading(true)
+      setError(null)
+      const response = await fetch('/api/customers')
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch customers')
+      }
+
+      const data = await response.json()
+      setCustomers(data.customers || [])
+    } catch (err) {
+      console.error('Error fetching customers:', err)
+      setError(err instanceof Error ? err.message : 'Failed to load customers')
+      // Fallback to mock data if API fails
+      setCustomers(mockCustomers)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Load customers on component mount
+  useEffect(() => {
+    fetchCustomers()
+  }, [])
+
+  // Handle successful customer creation
+  const handleCustomerAdded = (newCustomer: Customer) => {
+    setCustomers(prev => [newCustomer, ...prev])
+  }
 
   const filteredCustomers = useMemo(() => {
     return customers.filter(customer => {
@@ -137,10 +174,26 @@ export default function CustomersPage() {
         <div>
           <h1 className="text-3xl font-bold text-[#555555]">Customer Management</h1>
           <p className="text-[#555555]/70 mt-1">Manage your customer relationships and insights</p>
+          {error && (
+            <p className="text-red-600 text-sm mt-1">⚠️ {error}</p>
+          )}
         </div>
-        <Button icon={<Plus className="h-4 w-4" />}>
-          Add Customer
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="secondary"
+            icon={<RefreshCw className="h-4 w-4" />}
+            onClick={fetchCustomers}
+            disabled={isLoading}
+          >
+            Refresh
+          </Button>
+          <Button
+            icon={<Plus className="h-4 w-4" />}
+            onClick={() => setIsAddModalOpen(true)}
+          >
+            Add Customer
+          </Button>
+        </div>
       </div>
 
       {/* Stats Cards */}
@@ -249,8 +302,43 @@ export default function CustomersPage() {
       </Card>
 
       {/* Customer List */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        {filteredCustomers.map((customer) => (
+      {isLoading ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, i) => (
+            <Card key={i} className="animate-pulse">
+              <CardContent className="p-6">
+                <div className="space-y-3">
+                  <div className="h-4 bg-[#F4E1B5] rounded w-3/4"></div>
+                  <div className="h-3 bg-[#F4E1B5] rounded w-1/2"></div>
+                  <div className="h-3 bg-[#F4E1B5] rounded w-2/3"></div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : filteredCustomers.length === 0 ? (
+        <Card>
+          <CardContent className="p-12 text-center">
+            <User className="h-12 w-12 text-[#555555]/40 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-[#555555] mb-2">No customers found</h3>
+            <p className="text-[#555555]/70 mb-4">
+              {searchTerm || statusFilter !== 'all'
+                ? 'Try adjusting your search or filters'
+                : 'Get started by adding your first customer'}
+            </p>
+            {!searchTerm && statusFilter === 'all' && (
+              <Button
+                icon={<Plus className="h-4 w-4" />}
+                onClick={() => setIsAddModalOpen(true)}
+              >
+                Add First Customer
+              </Button>
+            )}
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          {filteredCustomers.map((customer) => (
           <Card key={customer.id} hover className="cursor-pointer" onClick={() => setSelectedCustomer(customer)}>
             <CardContent className="p-6">
               <div className="flex items-start justify-between mb-4">
@@ -295,17 +383,8 @@ export default function CustomersPage() {
               </div>
             </CardContent>
           </Card>
-        ))}
-      </div>
-
-      {filteredCustomers.length === 0 && (
-        <Card>
-          <CardContent className="p-12 text-center">
-            <Search className="h-12 w-12 text-[#555555]/40 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-[#555555] mb-2">No customers found</h3>
-            <p className="text-[#555555]/70">Try adjusting your search or filter criteria</p>
-          </CardContent>
-        </Card>
+          ))}
+        </div>
       )}
 
       {/* Customer Detail Modal */}
@@ -420,6 +499,13 @@ export default function CustomersPage() {
           </ModalFooter>
         </Modal>
       )}
+
+      {/* Add Customer Modal */}
+      <AddCustomerModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onSuccess={handleCustomerAdded}
+      />
     </div>
   )
 }

@@ -16,6 +16,22 @@ export interface User {
   provider?: 'google' | 'credentials'
 }
 
+export interface Customer {
+  id: string
+  name: string
+  email: string
+  phone: string
+  address: string
+  totalOrders: number
+  totalSpent: number
+  lastOrder: string | null
+  status: 'active' | 'inactive' | 'vip'
+  joinDate: string
+  favoriteItems: string[]
+  rating: number
+  notes?: string
+}
+
 // NextAuth types extension
 declare module "next-auth" {
   interface Session {
