@@ -77,7 +77,7 @@ export const addCustomerSchema = z.object({
     .string()
     .min(2, 'Customer name must be at least 2 characters')
     .max(50, 'Customer name must be less than 50 characters')
-    .regex(/^[a-zA-Z\s]+$/, 'Name can only contain letters and spaces'),
+    .regex(/^[a-zA-Z0-9\s\-\.\']+$/, 'Name can only contain letters, numbers, spaces, hyphens, periods, and apostrophes'),
   email: emailSchema,
   phone: z
     .string()
@@ -89,7 +89,7 @@ export const addCustomerSchema = z.object({
     .max(200, 'Address must be less than 200 characters'),
   status: z.enum(['active', 'inactive', 'vip'], {
     required_error: 'Please select a customer status'
-  }).default('active'),
+  }),
   notes: z.string().max(500, 'Notes must be less than 500 characters').optional()
 })
 
