@@ -1,272 +1,529 @@
-# Pizza Dashboard
+# 🍕 Pizza Dashboard - Customer & Delivery Management System
 
-A complete Next.js dashboard application with Google OAuth authentication and pizza order management.
+> A comprehensive, modern pizza delivery management dashboard built with Next.js, featuring customer management, order tracking, and delivery scheduling capabilities.
 
-## Features
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.0-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
+[![NextAuth.js](https://img.shields.io/badge/NextAuth.js-4.0-purple?style=flat-square&logo=next.js)](https://next-auth.js.org/)
+[![React Hook Form](https://img.shields.io/badge/React_Hook_Form-7.0-EC5990?style=flat-square&logo=reacthookform)](https://react-hook-form.com/)
 
-### **Multi-Provider Authentication System**
-- **Google OAuth Authentication**: Secure sign-in using Google accounts
-- **Email/Password Authentication**: Traditional credentials-based authentication
-- **Email Verification**: Secure email verification flow for new registrations
-- **Password Reset**: Forgot password functionality with secure reset tokens
-- **Rate Limiting**: Protection against brute force attacks
-- **Password Strength Validation**: Real-time password strength checking
+---
 
-### **Dashboard & Order Management**
-- **Dashboard Overview**: Welcome page with user profile and statistics
-- **Pizza Orders Management**: Comprehensive data table with filtering and search
-- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
-- **Modern UI**: Clean design using Tailwind CSS with pizza-themed branding
+## 👨‍💻 Developer Information
 
-## Technology Stack
+**Developer:** Nitya Jain  
+**GitHub:** [@nityajain](https://github.com/nityajain)  
+**Contact:** [nityajain@example.com](mailto:nityajain@example.com)
 
-- **Framework**: Next.js 15+ (App Router)
-- **Authentication**: NextAuth.js v4+ with Google OAuth + Credentials providers
-- **Styling**: Tailwind CSS with custom components
-- **TypeScript**: Full type safety throughout
-- **Form Handling**: React Hook Form with Zod validation
-- **Password Security**: bcrypt for password hashing
-- **Icons**: Lucide React
-- **User Storage**: In-memory storage (demo) - easily replaceable with database
+---
 
-## Setup Instructions
+## 📋 Project Overview
 
-### 1. Clone and Install Dependencies
+The **Pizza Dashboard** is a full-featured management system designed specifically for pizza restaurants and delivery services. This application streamlines operations by providing an intuitive interface for managing customers, tracking orders, and scheduling deliveries.
 
+### 🎯 Purpose
+Empower pizza restaurant owners and staff with a centralized platform to efficiently manage their daily operations, from customer relationships to delivery logistics.
+
+### 👥 Target Users
+- Pizza restaurant owners
+- Restaurant managers
+- Delivery coordinators
+- Customer service representatives
+
+### 🛠️ Technology Stack Overview
+Built with modern web technologies including Next.js 14, TypeScript, and Tailwind CSS, this application leverages the latest React features and provides a responsive, accessible user experience across all devices.
+
+---
+
+## ✨ Features
+
+### 🔐 **Authentication & Security**
+- Multi-provider authentication (Google OAuth + Email/Password)
+- Secure session management with NextAuth.js
+- Password strength validation and complexity requirements
+- Email verification workflow
+- Rate limiting for login attempts
+
+### 👥 **Customer Management**
+- Add new customers with comprehensive form validation
+- View detailed customer profiles and order history
+- Search and filter customers by name, email, phone, or status
+- Customer status management (Active, Inactive, VIP)
+- Real-time customer data updates
+
+### 📦 **Order Management**
+- Order tracking with real-time status updates
+- Order history and analytics
+- Customer order preferences tracking
+- Order value and frequency analytics
+
+### 🚚 **Delivery Scheduling**
+- Schedule deliveries with date and time selection
+- Driver assignment and management
+- Priority-based delivery scheduling
+- Estimated delivery duration tracking
+- Delivery route optimization
+
+### 🎨 **Modern UI/UX**
+- Responsive design for desktop, tablet, and mobile
+- Clean, intuitive interface with consistent design system
+- Loading states and error handling
+- Smooth animations and transitions
+- Accessibility-compliant components
+
+### 📊 **Data Management**
+- Form validation with Zod schemas
+- Real-time data synchronization
+- Error handling and user feedback
+- Data persistence with in-memory storage
+
+---
+
+## 🛠️ Technology Stack
+
+### **Frontend**
+- **Next.js 14** - React framework with App Router
+- **React 18** - UI library with latest features
+- **TypeScript** - Type-safe development
+
+### **Styling & UI**
+- **Tailwind CSS** - Utility-first CSS framework
+- **Lucide React** - Beautiful, customizable icons
+- **Custom Components** - Reusable UI component library
+
+### **Authentication**
+- **NextAuth.js** - Complete authentication solution
+- **Google OAuth** - Social authentication provider
+- **bcrypt** - Password hashing and security
+
+### **Form Management**
+- **React Hook Form** - Performant form library
+- **Zod** - TypeScript-first schema validation
+- **@hookform/resolvers** - Validation resolvers
+
+### **Development Tools**
+- **ESLint** - Code linting and quality
+- **Prettier** - Code formatting
+- **TypeScript** - Static type checking
+
+---
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (version 18.0 or higher)
+- **npm** or **yarn** package manager
+- **Google Cloud Console** account (for OAuth setup)
+- **Git** for version control
+
+---
+
+## 🚀 Installation & Setup
+
+### 1. **Clone the Repository**
 ```bash
+git clone https://github.com/nityajain/pizza-dashboard.git
 cd pizza-dashboard
-npm install
 ```
 
-### 2. Environment Variables
-
-Create a `.env.local` file in the root directory with the following variables:
-
-```env
-# NextAuth.js Configuration
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-secret-key-here-replace-with-random-string
-
-# Google OAuth Configuration
-# Get these from Google Cloud Console: https://console.cloud.google.com/
-GOOGLE_CLIENT_ID=your-google-client-id-from-google-console
-GOOGLE_CLIENT_SECRET=your-google-client-secret-from-google-console
-```
-
-### 3. Google OAuth Setup
-
-1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select an existing one
-3. Enable the Google+ API (or Google Identity API)
-4. Go to "Credentials" and create a new OAuth 2.0 Client ID
-5. Set the authorized redirect URIs to:
-   - `http://localhost:3000/api/auth/callback/google` (for development)
-   - `https://your-domain.vercel.app/api/auth/callback/google` (for production)
-6. Copy the Client ID and Client Secret to your `.env.local` file
-
-### 4. Generate NextAuth Secret
-
-Generate a secure secret for NextAuth:
-
+### 2. **Install Dependencies**
 ```bash
-openssl rand -base64 32
+npm install
+# or
+yarn install
 ```
 
-Add this to your `.env.local` file as `NEXTAUTH_SECRET`.
+### 3. **Environment Configuration**
+Create a `.env.local` file in the root directory:
+```bash
+cp .env.example .env.local
+```
 
-### 5. Run the Development Server
+### 4. **Configure Environment Variables**
+Edit `.env.local` with your configuration (see Environment Variables section below)
 
+### 5. **Run Development Server**
 ```bash
 npm run dev
+# or
+yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser (or the port shown in your terminal).
+### 6. **Access the Application**
+Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── api/auth/[...nextauth]/     # NextAuth API routes
-│   ├── auth/signin/                # Sign-in page
-│   ├── dashboard/                  # Dashboard pages
-│   │   ├── orders/                 # Pizza orders page
-│   │   └── page.tsx               # Main dashboard
-│   ├── globals.css                # Global styles
-│   ├── layout.tsx                 # Root layout
-│   └── page.tsx                   # Home page (redirects to sign-in)
-├── components/
-│   ├── layout/                    # Layout components
-│   └── providers/                 # Context providers
-├── data/
-│   └── mockOrders.ts             # Mock pizza order data
-├── lib/
-│   ├── auth.ts                   # NextAuth configuration
-│   └── utils.ts                  # Utility functions
-└── types/
-    └── index.ts                  # TypeScript interfaces
+### 7. **Build for Production**
+```bash
+npm run build
+npm start
+# or
+yarn build
+yarn start
 ```
 
-## Features Overview
+---
 
-### **Enhanced Authentication System**
+## 🔧 Environment Variables
 
-#### **Multiple Sign-In Options**
-- **Google OAuth**: One-click sign-in with Google accounts
-- **Email/Password**: Traditional credentials with secure password requirements
+### **Required Variables**
 
-#### **Security Features**
-- **Password Strength Validation**: Real-time feedback on password complexity
-- **Rate Limiting**: Protection against brute force attacks (5 attempts, 15-minute lockout)
-- **Email Verification**: Required for new account activation
-- **Secure Password Reset**: Token-based password reset with expiration
-- **Session Management**: JWT-based sessions with NextAuth.js
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `NEXTAUTH_URL` | Application URL | `http://localhost:3000` |
+| `NEXTAUTH_SECRET` | NextAuth.js secret key | `your-secret-key-here` |
+| `GOOGLE_CLIENT_ID` | Google OAuth Client ID | `your-google-client-id` |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth Client Secret | `your-google-client-secret` |
 
-#### **User Experience**
-- **Tabbed Interface**: Easy switching between Google and email authentication
-- **Form Validation**: Real-time validation with helpful error messages
-- **Loading States**: Visual feedback during authentication processes
-- **Responsive Design**: Works perfectly on all device sizes
-
-#### **Demo Credentials**
-For testing the email/password authentication:
-- **Email**: `demo@example.com`
-- **Password**: `Demo123!`
-- **Status**: Pre-verified for immediate access
-
-### Dashboard
-- User profile display
-- Order statistics
-- Quick action buttons
-- Recent activity feed
-
-### Pizza Orders
-- Comprehensive data table with 20 mock orders
-- Search functionality (by customer name, order ID, pizza type)
-- Status filtering (Pending, Preparing, Out for Delivery, Delivered, Cancelled)
-- Color-coded status badges
-- Responsive table design
-
-## Deployment
-
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Add environment variables in Vercel dashboard
-4. Update `NEXTAUTH_URL` to your production URL
-5. Update Google OAuth redirect URI to include your production domain
-
-### Environment Variables for Production
-
+### **Example .env.local Structure**
 ```env
-NEXTAUTH_URL=https://your-domain.vercel.app
-NEXTAUTH_SECRET=your-production-secret
-GOOGLE_CLIENT_ID=your-google-client-id
+# NextAuth Configuration
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-super-secret-key-here
+
+# Google OAuth Credentials
+GOOGLE_CLIENT_ID=your-google-client-id.googleusercontent.com
 GOOGLE_CLIENT_SECRET=your-google-client-secret
+
+# Optional: Database URL (for future implementation)
+# DATABASE_URL=your-database-connection-string
 ```
 
-## Mock Data
+### **Security Best Practices**
+- Never commit actual secrets to version control
+- Use strong, unique secrets for production
+- Rotate secrets regularly
+- Use environment-specific configurations
 
-The application includes 20 mock pizza orders with:
-- Order IDs: PZA001 - PZA020
-- Various pizza types: Margherita, Pepperoni, Veggie Supreme, Hawaiian, BBQ Chicken
-- Different quantities (1-4 pizzas)
-- Recent order dates
-- All status types represented
+---
 
-## Screenshots
+## 🔑 Google OAuth Setup
 
-### Login Page
-- Clean Google OAuth sign-in interface
-- Pizza-themed branding
-- Loading states and error handling
+### **Step 1: Create Google Cloud Project**
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Click "New Project" and provide a project name
+3. Select the newly created project
 
-### Dashboard Welcome Page
-- Personalized greeting with user's Google profile
-- Order statistics cards
-- Quick action buttons
-- Recent activity feed
+### **Step 2: Enable Google+ API**
+1. Navigate to "APIs & Services" > "Library"
+2. Search for "Google+ API"
+3. Click "Enable"
 
-### Pizza Orders Page
-- Comprehensive data table with all order information
-- Search functionality across customer names, order IDs, and pizza types
-- Status filtering with dropdown
-- Color-coded status badges
-- Responsive design that works on mobile devices
+### **Step 3: Create OAuth 2.0 Credentials**
+1. Go to "APIs & Services" > "Credentials"
+2. Click "Create Credentials" > "OAuth 2.0 Client IDs"
+3. Configure the consent screen if prompted
+4. Select "Web application" as application type
 
-## Testing
+### **Step 4: Configure Authorized URIs**
+Add the following URIs:
+- **Authorized JavaScript origins:** `http://localhost:3000`
+- **Authorized redirect URIs:** `http://localhost:3000/api/auth/callback/google`
 
-### **Authentication Testing**
+### **Step 5: Obtain Credentials**
+1. Copy the **Client ID** and **Client Secret**
+2. Add them to your `.env.local` file
+3. Restart your development server
 
-#### **Google OAuth Flow**
-1. Visit the application URL
-2. Click "Google" tab on sign-in page
-3. Click "Sign in with Google"
-4. Complete Google OAuth flow
-5. Verify redirect to dashboard
+---
 
-#### **Email/Password Authentication**
-1. **Test with Demo Account**:
-   - Click "Email" tab on sign-in page
-   - Email: `demo@example.com`
-   - Password: `Demo123!`
-   - Click "Sign in"
+## 📁 Project Structure
 
-2. **Create New Account**:
-   - Click "Sign up" link
-   - Fill out registration form
-   - Check password strength indicator
-   - Submit form
-   - Check console for verification email simulation
+```
+pizza-dashboard/
+├── src/
+│   ├── app/                    # Next.js App Router pages
+│   │   ├── api/               # API routes
+│   │   ├── auth/              # Authentication pages
+│   │   ├── dashboard/         # Dashboard pages
+│   │   └── layout.tsx         # Root layout
+│   ├── components/            # Reusable UI components
+│   │   ├── ui/               # Base UI components
+│   │   ├── layout/           # Layout components
+│   │   └── forms/            # Form components
+│   ├── lib/                   # Utility functions and configurations
+│   │   ├── auth.ts           # NextAuth configuration
+│   │   ├── validations.ts    # Zod schemas
+│   │   └── utils.ts          # Helper functions
+│   └── types/                 # TypeScript type definitions
+├── public/                    # Static assets
+├── .env.example              # Environment variables template
+└── README.md                 # Project documentation
+```
 
-3. **Password Reset Flow**:
-   - Click "Forgot your password?" on sign-in page
-   - Enter email address
-   - Check console for reset email simulation
-   - Use reset link to set new password
+---
 
-#### **Security Testing**
-- **Rate Limiting**: Try 6+ failed login attempts to trigger lockout
-- **Password Validation**: Test weak passwords to see strength indicator
-- **Email Verification**: Try signing in with unverified account
+## 📖 Usage Instructions
 
-### **Dashboard Features**
-- Check user profile display (works with both auth methods)
-- Verify statistics are shown
-- Test navigation to orders page
+### **Accessing the Application**
+1. Navigate to `http://localhost:3000`
+2. Sign in using Google OAuth or create an account
+3. Access the dashboard after successful authentication
 
-### **Orders Management**
-- Test search functionality
-- Try different status filters
-- Verify responsive design on mobile
-- Check status badge colors
+### **Default Demo Credentials**
+For testing purposes, use:
+- **Email:** `demo@example.com`
+- **Password:** `Demo123!`
 
-## Troubleshooting
+### **Navigation Guide**
+- **Dashboard:** Overview of key metrics and recent activity
+- **Customers:** Manage customer information and relationships
+- **Orders:** Track and manage pizza orders
+- **Schedule:** Plan and manage delivery schedules
+- **Activity:** View system activity and logs
 
-### Common Issues
+---
 
-1. **Google OAuth Error**:
-   - Verify your Google Client ID and Secret are correct
-   - Check that redirect URIs match in Google Console
-   - Ensure Google+ API is enabled
+## 🤔 Assumptions & Design Decisions
 
-2. **Port Issues**:
-   - If port 3000 is in use, Next.js will automatically use another port
-   - Update NEXTAUTH_URL in .env.local to match the actual port shown in terminal
+### **In-Memory Storage**
+- **Assumption:** This is a demonstration/prototype application
+- **Rationale:** Simplifies setup and deployment without database dependencies
+- **Trade-off:** Data doesn't persist between server restarts
+- **Future:** Will be replaced with proper database integration
 
-3. **Environment Variables**:
-   - Ensure .env.local file is in the root directory
-   - Restart the development server after changing environment variables
+### **Mock Data Usage**
+- **Purpose:** Provides realistic data for testing and demonstration
+- **Benefit:** Allows immediate exploration of features without setup complexity
+- **Limitation:** Not suitable for production use
 
-## Contributing
+### **UI/UX Design Choices**
+- **Color Scheme:** Warm, pizza-themed colors (creamy, red, green)
+- **Typography:** Clean, readable fonts with proper hierarchy
+- **Layout:** Card-based design for easy scanning and interaction
+- **Responsiveness:** Mobile-first approach with progressive enhancement
 
+### **Authentication Flow**
+- **Multi-provider:** Supports both social and credential-based authentication
+- **Security:** Implements industry-standard security practices
+- **User Experience:** Streamlined onboarding with email verification
+
+---
+
+## 🚧 Challenges Faced
+
+### **Technical Challenges**
+1. **Form State Management**
+   - **Challenge:** Complex forms with nested validation
+   - **Solution:** Implemented React Hook Form with Zod schemas
+   - **Outcome:** Type-safe, performant form handling
+
+2. **Authentication Integration**
+   - **Challenge:** Seamless multi-provider authentication
+   - **Solution:** NextAuth.js with custom providers and callbacks
+   - **Outcome:** Secure, scalable authentication system
+
+3. **Responsive Design**
+   - **Challenge:** Consistent experience across all devices
+   - **Solution:** Tailwind CSS with mobile-first approach
+   - **Outcome:** Fully responsive, accessible interface
+
+### **Trade-offs Made**
+- **In-memory storage** vs. database complexity
+- **Mock data** vs. real API integration
+- **Feature completeness** vs. development timeline
+
+---
+
+## 📚 Third-Party Libraries
+
+### **Core Dependencies**
+```json
+{
+  "react-hook-form": "^7.45.0",
+  "@hookform/resolvers": "^3.1.0",
+  "zod": "^3.21.0",
+  "lucide-react": "^0.263.0",
+  "bcrypt": "^5.1.0",
+  "next-auth": "^4.22.0"
+}
+```
+
+### **Library Purposes**
+- **`react-hook-form`** - Efficient form state management with minimal re-renders
+- **`@hookform/resolvers`** - Integration between React Hook Form and validation libraries
+- **`zod`** - TypeScript-first schema validation for forms and API data
+- **`lucide-react`** - Beautiful, consistent icon library with React components
+- **`bcrypt`** - Secure password hashing for credential-based authentication
+- **`next-auth`** - Complete authentication solution for Next.js applications
+
+---
+
+## 🚀 Future Enhancements
+
+### **Phase 1: Database Integration**
+- [ ] PostgreSQL/MongoDB integration
+- [ ] Data persistence and migrations
+- [ ] Advanced querying capabilities
+
+### **Phase 2: Real-time Features**
+- [ ] WebSocket integration for live updates
+- [ ] Real-time order tracking
+- [ ] Push notifications
+
+### **Phase 3: Advanced Analytics**
+- [ ] Sales reporting and analytics
+- [ ] Customer behavior insights
+- [ ] Performance metrics dashboard
+
+### **Phase 4: Mobile Development**
+- [ ] React Native mobile app
+- [ ] Offline capability
+- [ ] GPS tracking for deliveries
+
+### **Phase 5: Business Features**
+- [ ] Payment processing integration
+- [ ] Inventory management
+- [ ] Multi-location support
+- [ ] Advanced reporting tools
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions to improve the Pizza Dashboard! Here's how you can help:
+
+### **Getting Started**
 1. Fork the repository
-2. Create a feature branch
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+4. Commit your changes (`git commit -m 'Add amazing feature'`)
+5. Push to the branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request
 
-## License
+### **Code Style Guidelines**
+- Follow TypeScript best practices
+- Use meaningful variable and function names
+- Write comprehensive comments for complex logic
+- Ensure all components are properly typed
+- Follow the existing code formatting (Prettier configuration)
 
-This project is for educational purposes and demonstration of Next.js, NextAuth.js, and modern web development practices.
+### **Pull Request Process**
+1. Ensure your code passes all linting checks
+2. Update documentation if necessary
+3. Add tests for new features
+4. Ensure the build passes
+5. Request review from maintainers
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+```
+MIT License
+
+Copyright (c) 2024 Nitya Jain
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+```
+
+---
+
+## 🔧 Troubleshooting
+
+### **Common Issues & Solutions**
+
+#### **Port Conflicts**
+```bash
+Error: listen EADDRINUSE: address already in use :::3000
+```
+**Solution:** Use a different port
+```bash
+npm run dev -- -p 3001
+```
+
+#### **Environment Variable Issues**
+```bash
+Error: NEXTAUTH_SECRET is not defined
+```
+**Solution:** Ensure all required environment variables are set in `.env.local`
+
+#### **OAuth Configuration Problems**
+```bash
+Error: redirect_uri_mismatch
+```
+**Solution:** Verify redirect URIs in Google Cloud Console match your application URL
+
+#### **Build Errors**
+```bash
+Type error: Cannot find module
+```
+**Solution:** Clear cache and reinstall dependencies
+```bash
+rm -rf .next node_modules
+npm install
+npm run build
+```
+
+#### **Authentication Issues**
+- Verify Google OAuth credentials are correct
+- Check that the Google+ API is enabled
+- Ensure NEXTAUTH_URL matches your domain
+- Verify NEXTAUTH_SECRET is set and secure
+
+---
+
+## 📸 Screenshots & Demo
+
+### **Dashboard Overview**
+![Dashboard Screenshot](./docs/screenshots/dashboard.png)
+
+### **Customer Management**
+![Customer Management Screenshot](./docs/screenshots/customers.png)
+
+### **Live Demo**
+🔗 **[View Live Demo](https://pizza-dashboard-demo.vercel.app)** *(Coming Soon)*
+
+> **Note:** Screenshots and demo links will be updated as the project evolves.
+
+---
+
+## 📞 Contact & Support
+
+### **Getting Help**
+- 📧 **Email:** [nityajain@example.com](mailto:nityajain@example.com)
+- 🐛 **Issues:** [GitHub Issues](https://github.com/nityajain/pizza-dashboard/issues)
+- 💬 **Discussions:** [GitHub Discussions](https://github.com/nityajain/pizza-dashboard/discussions)
+
+### **Reporting Issues**
+When reporting issues, please include:
+1. **Environment details** (OS, Node.js version, browser)
+2. **Steps to reproduce** the issue
+3. **Expected vs actual behavior**
+4. **Error messages** or screenshots
+5. **Relevant code snippets**
+
+### **Feature Requests**
+We love hearing about new ideas! Please use GitHub Issues with the "enhancement" label to suggest new features.
+
+---
+
+## 🙏 Acknowledgments
+
+- **Next.js Team** for the amazing framework
+- **Vercel** for hosting and deployment platform
+- **Tailwind CSS** for the utility-first CSS framework
+- **NextAuth.js** for authentication solutions
+- **React Hook Form** for form management
+- **Lucide** for beautiful icons
+
+---
+
+<div align="center">
+
+**Made with ❤️ by [Nitya Jain](https://github.com/nityajain)**
+
+⭐ **Star this repository if you found it helpful!**
+
+</div>
