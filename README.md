@@ -13,8 +13,8 @@
 ## 👨‍💻 Developer Information
 
 **Developer:** Nitya Jain  
-**GitHub:** [@nityajain](https://github.com/nityajain)  
-**Contact:** [nityajain@example.com](mailto:nityajain@example.com)
+**GitHub:** [@curiouscoder-cmd](https://github.com/curiouscoder-cmd)  
+**Contact:** [nitya@curiouscoder.live](mailto:nitya@curiouscoder.live)
 
 ---
 
@@ -522,7 +522,7 @@ We love hearing about new ideas! Please use GitHub Issues with the "enhancement"
 
 <div align="center">
 
-**Made with ❤️ by [Nitya Jain](https://github.com/nityajain)**
+**Made with ❤️ by [Nitya Jain](https://github.com/curiouscoder-cmd)**
 
 ⭐ **Star this repository if you found it helpful!**
 
